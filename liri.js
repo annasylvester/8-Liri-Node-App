@@ -18,31 +18,36 @@ const Spotify = require('node-spotify-api')
 let spotify = new Spotify(keys.spotify)
 
 
-// Action requested
+// Action requested from user
 let userRequest = process.argv[2];
 let userRequestDetail = process.argv[3];
 
-// FUnction
+// Calls function to make app work
+searchStuff(userRequest, userRequestDetail);
+
+// General function for app to work
 function searchStuff(userRequest, userRequestDetail) {
 
     // Switches up the first input from user to call different functions
     switch (userRequest) {
 
         // Calls the Bands in Town function
-        case "concert-this":
-            break;
+        // case "concert-this":
+        //     break;
 
             // Calls the Spotify function
         case "spotify-this-song":
+            let songTitle = userRequestDetail;
+            getSpotifyInfo(songTitle);
             break;
 
             // Calls the Axios OMDB function
-        case "movie-this":
-            break;
+        // case "movie-this":
+        //     break;
 
             // Calls the Do what it says function - which runs spotify function from the random.txt document
-        case "do-what-it-says":
-            break;
+        // case "do-what-it-says":
+        //     break;
     }
 }
 
@@ -73,4 +78,5 @@ function getSpotifyInfo(songTitle) {
     });
 }
 
-getSpotifyInfo("All the Small Things");
+
+
