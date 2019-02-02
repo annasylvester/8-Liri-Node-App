@@ -13,6 +13,8 @@ log("4. do-what-it-says")
 require("dotenv").config();
 // Axios require
 let axios = require("axios");
+// FS require
+let fs = require("fs");
 
 // Spotify Request
 const keys = require('./keys');
@@ -50,33 +52,51 @@ function searchStuff(argument, parameter) {
 
             // Calls the Do what it says function - which runs spotify function from the random.txt document
         case "do-what-it-says":
+            getDoWhatItSays(parameter);
             break;
     }
 }
 
 // // Concert this Function (Calls bands in town API)
-// function getConcertInfo(parameter) {
+function getConcertInfo(parameter) {
+    if (parameter === undefined) {
+        artist = "";
+        log("------------------");
+        log("Oops! You have to include an artist to look up to see if they have concerts near you.")
+        log("------------------");
+    } else {
+        artist = parameter;
+    }
 
-//     concertArtist = "";
+    artist = parameter;
+    var queryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
 
-//     // If there isnt an artist requested
-//     if (parameter === undefined) {
-//         console.log("Oops! You need to include an artist to search concerts they might have near you.")
-//     } else {
-//         concertArtist = parameter;
-//     }
+    axios.get(queryUrl)
+        .then(function (response) {
 
-//     // Bands in town query
-//     let queryURL = "https://rest.bandsintown.com/artists/" + concertArtist + "/events?app_id=codingbootcamp";
+            // Logs Movie data
+            log("------------------");
+            log("Next Concert:")
+            log("Venue: " + response.data[0].venue.name);
+            log("Location: " + response.data[0].venue.country + ", " + response.data[0].venue.region + ", " + response.data[0].venue.city);
+            log("Date: " + response.data[0].datetime);
+            log("------------------");
+            log("Coming up:")
+            log("Venue: " + response.data[1].venue.name);
+            log("Location: " + response.data[1].venue.country + ", " + response.data[1].venue.region + ", " + response.data[1].venue.city);
+            log("Date: " + response.data[1].datetime);
+            log("------------------");
+            log("Coming up:")
+            log("Venue: " + response.data[2].venue.name);
+            log("Location: " + response.data[2].venue.country + ", " + response.data[2].venue.region + ", " + response.data[2].venue.city);
+            log("Date: " + response.data[2].datetime);
+            log("------------------");
+        })
 
-//     //Axios request
-//     axios.get(queryUrl).then(
-//         function (response) {
-//             console.log("Release Year: " + response.data.Year);
-//         }
-//     );
-// }
-
+        .catch(function (error) {
+            log("Error occured getting BandsInTown data: " + error)
+        })
+};
 
 // Spotify Function (spotify-this-song)
 function getSpotifyInfo(parameter) {
@@ -102,15 +122,18 @@ function getSpotifyInfo(parameter) {
         let artists = artistsNames.join(", ");
 
         // Logs Spotify Data
+        log("------------------");
         log("Artist(s): " + artists);
         log("Song: " + data.tracks.items[0].name);
         log("Preview Link : " + data.tracks.items[0].preview_url)
         log("Album: " + data.tracks.items[0].album.name);
+        log("------------------");
     });
-}
+};
 
 // OMDB Function (concert-this)
 function getMovieInfo(parameter) {
+
     if (parameter === undefined) {
         movieName = "Mr. Nobody";
     } else {
@@ -123,6 +146,7 @@ function getMovieInfo(parameter) {
         .then(function (response) {
 
             // Logs Movie data
+            log("------------------");
             log("Title: " + response.data.Title);
             log("Release Year: " + response.data.Year);
             log("IMDB rating: " + response.data.imdbRating);
@@ -131,9 +155,30 @@ function getMovieInfo(parameter) {
             log("Language produced in: " + response.data.Language);
             log("Plot of movie: " + response.data.Plot);
             log("Actors in movie: " + response.data.Actors);
+            log("------------------");
         })
 
         .catch(function (error) {
-            log("Error occured getting OMDB data: " + error)
-        })
+            log("Error occured getting OMDB data: " + error);
+        });
 }
+
+function getDoWhatItSays(parameter) {
+    fs.readFile('random.txt', "utf8", function (error, data) {
+
+        if (error) {
+            return display("Error occured getting info from random.txt");
+        }
+
+        var dataArr = data.split(",");
+
+        if (dataArr[0] === "spotify-this-song") {
+
+            var songcheck = dataArr[1].trim().slice(1, -1);
+            getSpotifyInfo(songcheck);
+        }
+
+    });
+
+};
+
