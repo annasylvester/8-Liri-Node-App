@@ -1,7 +1,11 @@
 # 8-Liri-Node-App
 
 ## Commands
-> We're living the future so
+
+### Calling the Bands In Town API
+```bash
+node liri.js concert-this "Band Name"
+```
 ![Gif](gifs/concert.gif)
 ![Gif](gifs/concert-default.gif)
 
