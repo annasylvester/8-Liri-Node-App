@@ -17,9 +17,9 @@
 * Authentication keys for Spotify are stored in "keys.js" and we are exporting it into "liri.js"
 * What this app does depends on what the user types. There are 4 functions:
     1. "concert-this" - Calls the Bands In Town API and displays the details of the next 3 concerts for the artist specified. If no artist is specified, an error message will occur.
-    2. "spotify-this-song" - Calls the Spotify API and displays the details of the song specified. If no artist is specified, the default search is "The Sign" by Ace of Base.
-    3. "movie-this" - Calls the OMDB API and displays the details of the movie specified. If no movie is specified, the default search is "Mr. Nobody".
-    4. "do-what-it-says" - Reads the file, "random.txt", which contains the string "I Want It That Way" and calls the Spotify API to search for that song.
+    1. "spotify-this-song" - Calls the Spotify API and displays the details of the song specified. If no artist is specified, the default search is "The Sign" by Ace of Base.
+    1. "movie-this" - Calls the OMDB API and displays the details of the movie specified. If no movie is specified, the default search is "Mr. Nobody".
+    1. "do-what-it-says" - Reads the file, "random.txt", which contains the string "I Want It That Way" and calls the Spotify API to search for that song.
 
 ## Demo Time!
 
