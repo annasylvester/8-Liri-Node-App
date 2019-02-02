@@ -111,25 +111,29 @@ function getSpotifyInfo(parameter) {
 
 // OMDB Function (concert-this)
 function getMovieInfo(parameter) {
-    let movieName = parameter;
-    var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
+    if (parameter === undefined) {
+        movieName = "Mr. Nobody";
+    } else {
+        movieName = parameter;
+    }
+
+    var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&tomatoes=True&apikey=trilogy";
 
     axios.get(queryUrl)
         .then(function (response) {
 
             // Logs Movie data
-            log("Title: " + response.data.Title)
+            log("Title: " + response.data.Title);
             log("Release Year: " + response.data.Year);
-            log("IMDB rating: " + response.data.imdbRating)
-            log("Rotten Tomatoes rating: " + response.data.tomatoMeter)
-            log("Country produced in: " + response.data.Country)
-            log("Language produced in: " + response.data.Language)
-            log("Plot of movie: " + response.data.Plot)
-            log("Actors in movie: " + response.data.Actors)
+            log("IMDB rating: " + response.data.imdbRating);
+            log("Rotten Tomatoes rating: " + response.data.Ratings[1].Value);
+            log("Country produced in: " + response.data.Country);
+            log("Language produced in: " + response.data.Language);
+            log("Plot of movie: " + response.data.Plot);
+            log("Actors in movie: " + response.data.Actors);
         })
 
         .catch(function (error) {
             log("Error occured getting OMDB data: " + error)
         })
 }
-
